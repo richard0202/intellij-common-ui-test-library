@@ -78,6 +78,9 @@ public class UITestRunner {
 
             String fileExtension = OS_NAME.contains("windows") ? ".bat" : "";
             ProcessBuilder pb = new ProcessBuilder("." + File.separator + "gradlew" + fileExtension, "runIdeForUiTests", "-PideaVersion=" + ideaVersion, "-Drobot-server.port=" + port);
+            String outDir = System.getProperty("user.home") + File.separator + "debug";
+            pb.redirectOutput(ProcessBuilder.Redirect.to(new File(outDir + File.separator + "stdout.log")));
+            pb.redirectError(ProcessBuilder.Redirect.to(new File(outDir + File.separator + "stderr.log")));
 
             try {
                 ideProcess = pb.start();
