@@ -243,9 +243,9 @@ public class FlatWelcomeFrame extends CommonContainerFixture {
             // code for IntelliJ Idea 2023.2+
 
             try {
-                return button(byXpath(XPathDefinitions.visible_test_label(label)), Duration.ofSeconds(2));
-            } catch (WaitForConditionTimeoutException e) {
                 return button(byXpath("//div[@defaulticon='createNewProjectTab.svg']"), Duration.ofSeconds(2));
+            } catch (WaitForConditionTimeoutException e) {
+                return button(byXpath(XPathDefinitions.visible_test_label(label)), Duration.ofSeconds(2));
             }
 
         } else {
