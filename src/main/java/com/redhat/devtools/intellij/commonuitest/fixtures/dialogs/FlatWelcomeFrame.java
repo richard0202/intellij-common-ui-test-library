@@ -237,15 +237,18 @@ public class FlatWelcomeFrame extends CommonContainerFixture {
     // Works for IntelliJ Idea 2020.3+
     private JButtonFixture welcomeFrameLink(String label) {
         if (UtilsKt.hasAnyComponent(this, byXpath(XPathDefinitions.RECENT_PROJECT_PANEL_NEW))) {
-            System.out.println("wrong wrong");
             return button(byXpath(XPathDefinitions.jBOptionButton(label)), Duration.ofSeconds(2));
         }
         if (ideaVersion >= 20232) {
             // code for IntelliJ Idea 2023.2+
-            System.out.println("right right");
-            return button(byXpath(XPathDefinitions.visible_test_label(label)), Duration.ofSeconds(2));
+
+            try {
+                return button(byXpath(XPathDefinitions.visible_test_label(label)), Duration.ofSeconds(2));
+            } catch (WaitForConditionTimeoutException e) {
+                return button(byXpath("//div[@defaulticon='createNewProjectTab.svg']"), Duration.ofSeconds(2));
+            }
+
         } else {
-            System.out.println("wrong");
             return button(byXpath(XPathDefinitions.nonOpaquePanel(label)), Duration.ofSeconds(2));
         }
     }
