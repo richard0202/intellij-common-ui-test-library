@@ -239,7 +239,12 @@ public class FlatWelcomeFrame extends CommonContainerFixture {
         if (UtilsKt.hasAnyComponent(this, byXpath(XPathDefinitions.RECENT_PROJECT_PANEL_NEW))) {
             return button(byXpath(XPathDefinitions.jBOptionButton(label)), Duration.ofSeconds(2));
         }
-        return button(byXpath(XPathDefinitions.nonOpaquePanel(label)), Duration.ofSeconds(2));
+        if (ideaVersion >= 20232) {
+            // code for IntelliJ Idea 2023.2+
+            return button(byXpath(XPathDefinitions.visible_test_label(label)), Duration.ofSeconds(2));
+        } else {
+            return button(byXpath(XPathDefinitions.nonOpaquePanel(label)), Duration.ofSeconds(2));
+        }
     }
 
     private ComponentFixture ideErrorsIcon() {

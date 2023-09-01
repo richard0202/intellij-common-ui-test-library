@@ -90,6 +90,10 @@ public class XPathDefinitions {
         return "//div[@text='" + label + "']";
     }
 
+    public static String visible_test_label(String label) {
+        return "//div[@visible_text='" + label + "']";
+    }
+
     public static String jBOptionButton(String label) {
         return "//div[@class='JBOptionButton' and @text='" + label + "']";
     }
