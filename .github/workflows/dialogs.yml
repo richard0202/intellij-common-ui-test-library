@@ -5,9 +5,9 @@ name: Java CI with Gradle - dialogs
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, gha-test  ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, gha-test  ]
 
 jobs: 
   build-linux:
