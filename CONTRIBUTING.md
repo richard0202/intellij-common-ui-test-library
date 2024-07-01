@@ -52,13 +52,20 @@ $ ./gradlew publishToMavenLocal
 
 ## Running Tests
 
-To exeute the JUnit 5 tests run the following command:
+To execute the JUnit 5 tests with Community version of IntelliJ run the following command:
 
 ```
 $ cd ./src/test-project
-$ ./gradlew clean test
+$ ./gradlew clean integrationUITest
 ```
 
+To execute the JUnit 5 tests with Ultimate version of IntelliJ run the following command:
+
+```
+$ cd ./src/test-project
+$ ./gradlew clean integrationUITestUltimate
+```
+kj
 
 ## Reporting Issues
 
