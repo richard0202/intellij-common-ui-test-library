@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle - dialogs
+name: Java CI with Gradle - mainidewindow.menubar ULTIMATE
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
   pull_request:
     branches: [ main ]
 
-jobs: 
+jobs:     
   build-linux:
     runs-on: ubuntu-latest
 
@@ -21,13 +21,19 @@ jobs:
         java-version: 17
         distribution: 'temurin'
         cache: 'gradle'
-    - name: Run integration tests
+    - name: Decryption test
       run: |
+        echo -n "pass123" | gpg --decrypt --passphrase-fd 0 --pinentry-mode loopback --output src/test-project/idea_license_token/test.txt src/test-project/idea_license_token/test.txt.gpg
+    - name: Run integration tests
+      env:
+        GPG_PASSPHRASE: ${{ secrets.IDEA_KEY_PASSPHRASE }}
+      run: |
+        echo -n "$GPG_PASSPHRASE" | gpg --decrypt --passphrase-fd 0 --pinentry-mode loopback --output src/test-project/idea_license_token/idea.key src/test-project/idea_license_token/idea.key.gpg
         export DISPLAY=:99.0
         Xvfb -ac :99 -screen 0 1920x1080x24 &
         cd src/test-project
         chmod +x gradlew
-        ./gradlew clean test --warning-mode none --tests com.redhat.devtools.intellij.commonuitest.fixtures.test.dialogs.FlatWelcomeFrameTest
+        ./gradlew clean integrationUITestUltimate --warning-mode none --tests com.redhat.devtools.intellij.commonuitest.fixtures.test.mainidewindow.menubar.*
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ runner.os }}-test-reports
@@ -59,10 +65,13 @@ jobs:
         distribution: 'temurin'
         cache: 'gradle'
     - name: Run integration tests
+      env:
+        GPG_PASSPHRASE: ${{ secrets.IDEA_KEY_PASSPHRASE }}
       run: |
+        echo -n "$GPG_PASSPHRASE" | gpg --decrypt --passphrase-fd 0 --pinentry-mode loopback --output src/test-project/idea_license_token/idea.key src/test-project/idea_license_token/idea.key.gpg
         cd src/test-project
         chmod +x gradlew
-        ./gradlew clean test --warning-mode none --tests com.redhat.devtools.intellij.commonuitest.fixtures.test.dialogs.FlatWelcomeFrameTest
+        ./gradlew clean integrationUITestUltimate --warning-mode none --tests com.redhat.devtools.intellij.commonuitest.fixtures.test.mainidewindow.menubar.*
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ runner.os }}-test-reports
@@ -93,12 +102,21 @@ jobs:
         java-version: 17
         distribution: 'temurin'
         cache: 'gradle'
-    - name: Run integration tests
+    - name: Decryption test
+      env:
+        GPGTEST: ${{ secrets.TESTPASS }}
+      shell: pwsh
       run: |
+        gpg --decrypt --passphrase "$env:GPGTEST" --pinentry-mode loopback --output src\test-project\idea_license_token\test.txt src\test-project\idea_license_token\test.txt.gpg
+    - name: Run integration tests
+      shell: pwsh
+      env:
+        GPG_PASSPHRASE: ${{ secrets.IDEA_KEY_PASSPHRASE }}
+      run: |
+        gpg --decrypt --passphrase "$env:GPG_PASSPHRASE" --pinentry-mode loopback --output src\test-project\idea_license_token\idea.key src\test-project\idea_license_token\idea.key.gpg
         cd src\test-project
         chmod +x gradlew.bat
-        .\gradlew.bat clean test --warning-mode none --tests com.redhat.devtools.intellij.commonuitest.fixtures.test.dialogs.FlatWelcomeFrameTest
-      shell: powershell
+        .\gradlew.bat clean integrationUITestUltimate --warning-mode none --tests com.redhat.devtools.intellij.commonuitest.fixtures.test.mainidewindow.menubar.*
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ runner.os }}-test-reports
