@@ -98,7 +98,7 @@ jobs:
         cd src\test-project
         chmod +x gradlew.bat
         .\gradlew.bat clean integrationUITest --warning-mode none --tests com.redhat.devtools.intellij.commonuitest.fixtures.test.dialogs.information.* --tests com.redhat.devtools.intellij.commonuitest.fixtures.test.dialogs.settings.*
-      shell: powershell
+      shell: pwsh
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ runner.os }}-test-reports
