@@ -119,7 +119,6 @@ jobs:
       env:
         GPG_PASSPHRASE: ${{ secrets.IDEA_KEY_PASSPHRASE }}
       run: |
-        $env:GPG_PASSPHRASE = "${{ secrets.IDEA_KEY_PASSPHRASE }}"
         gpg --decrypt --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback --output src\test-project\idea_license_token\idea.key src\test-project\idea_license_token\idea.key.gpg
         cd src\test-project
         chmod +x gradlew.bat
