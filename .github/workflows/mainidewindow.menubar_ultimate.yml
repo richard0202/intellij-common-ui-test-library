@@ -105,7 +105,7 @@ jobs:
     - name: Decryption test
       shell: pwsh
       run: |
-        echo "" |set /p="pass123" | gpg --decrypt --passphrase-fd 0 --pinentry-mode loopback --output src\test-project\idea_license_token\test.txt src\test-project\idea_license_token\test.txt.gpg
+        gpg --decrypt --passphrase "pass123" --pinentry-mode loopback --output src\test-project\idea_license_token\test.txt src\test-project\idea_license_token\test.txt.gpg
     - name: Run integration tests
       shell: pwsh
       env:
