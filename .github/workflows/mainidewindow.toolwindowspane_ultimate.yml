@@ -103,7 +103,7 @@ jobs:
       env:
         GPG_PASSPHRASE: ${{ secrets.IDEA_KEY_PASSPHRASE }}
       run: |
-        gpg --decrypt --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback --output src\test-project\idea_license_token\idea.key src\test-project\idea_license_token\idea.key.gpg
+        gpg --decrypt --passphrase="$GPG_PASSPHRASE" --pinentry-mode loopback --output src\test-project\idea_license_token\idea.key src\test-project\idea_license_token\idea.key.gpg
         cd src\test-project
         chmod +x gradlew.bat
         .\gradlew.bat clean integrationUITestUltimate --warning-mode none --tests com.redhat.devtools.intellij.commonuitest.fixtures.test.mainidewindow.toolwindowspane.*
